@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { SpinnerService } from "src/app/services/spinner.service";
 import { UsersService } from "src/app/services/users.service";
@@ -23,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-      userNameFormControl: new FormControl(""),
+      userNameFormControl: new FormControl("", [Validators.required]),
     });
   }
 
@@ -38,11 +43,18 @@ export class HomeComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data.isUserExists) {
-            window.sessionStorage.setItem("userName", this.userForm.get("userNameFormControl").value);
+            window.sessionStorage.setItem(
+              "userName",
+              this.userForm.get("userNameFormControl").value
+            );
             window.sessionStorage.setItem("displayName", data.displayName);
             window.sessionStorage.setItem("userId", data.userId.toString());
 
             this.router.navigateByUrl("chatRoom");
+          } else {
+            this.userForm.controls["userNameFormControl"].setErrors({
+              invalid: true,
+            });
           }
           this.spinnerService.IsVisible(false);
         },

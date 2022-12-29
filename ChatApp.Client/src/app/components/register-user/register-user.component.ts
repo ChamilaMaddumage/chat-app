@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserDetailsRequestModel } from "src/app/models/user";
 import { SpinnerService } from "src/app/services/spinner.service";
+import { ToastService } from "src/app/services/toast.service";
 import { UsersService } from "src/app/services/users.service";
 
 @Component({
@@ -21,7 +22,8 @@ export class RegisterUserComponent implements OnInit {
     private router: Router,
     private usersService: UsersService,
     public spinnerService: SpinnerService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    public toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -40,7 +42,7 @@ export class RegisterUserComponent implements OnInit {
       .subscribe(
         (data) => {
           if (data.isUserExists) {
-            //already exits
+            window.alert('User Already Exists');//user already exists
           } else {
             var userDetailsRequestModel = new UserDetailsRequestModel();
             userDetailsRequestModel.displayName = this.userForm.get(
@@ -55,12 +57,12 @@ export class RegisterUserComponent implements OnInit {
                 if (x > 0) {
                   this.spinnerService.IsVisible(false);
                   this.router.navigateByUrl("");
-                  //success
+                  window.alert('User Succefully Created');//success
                 }
               },
               (error) => {
                 this.spinnerService.IsVisible(false);
-                //this.toast.show('Error occured while saving record', ToastType.Error);
+                window.alert('Error Occured');//Error
               }
             );
           }
@@ -68,7 +70,7 @@ export class RegisterUserComponent implements OnInit {
         },
         (error) => {
           this.spinnerService.IsVisible(false);
-          //this.toast.show('Error occured while retrieving record', ToastType.Error)
+          window.alert('Error Occured');//Error
         }
       );
   }

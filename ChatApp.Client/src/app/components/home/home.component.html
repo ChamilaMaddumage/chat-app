@@ -19,9 +19,24 @@
                         class="form-control"
                         placeholder="Enter User Name"
                         [formControlName]="userNameFormControl"
+                        style="text-transform:uppercase" 
                       />
+                      <div
+                    *ngIf="
+                      userForm.controls['userNameFormControl'].invalid &&
+                      (userForm.controls['userNameFormControl'].dirty ||
+                        userForm.controls['userNameFormControl'].touched)
+                    "
+                    class='alert alert-danger'
+                  >
+                    <div *ngIf="userForm.controls['userNameFormControl'].invalid">
+                      Please Enter valid User Name
                     </div>
                   </div>
+                    </div>
+                    
+                  </div>
+                  
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button
