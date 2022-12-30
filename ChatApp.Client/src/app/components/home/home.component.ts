@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
   public userName: string;
   public userForm: FormGroup;
   userNameFormControl: string = "userNameFormControl";
+  chatRoomFormControl: string = "chatRoomFormControl";
 
   constructor(
     private router: Router,
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.userForm = this.formBuilder.group({
       userNameFormControl: new FormControl("", [Validators.required]),
+      chatRoomFormControl: new FormControl("", [Validators.required]),
     });
   }
 
@@ -37,30 +39,46 @@ export class HomeComponent implements OnInit {
   }
 
   onJoin() {
-    this.spinnerService.IsVisible(true);
+    if (
+      this.userForm.get("userNameFormControl").value == "" ||
+      this.userForm.get("chatRoomFormControl").value == ""
+    ) {
+      window.alert("Please fill required fields");
+      return;
+    }
     this.usersService
       .isUserExists(this.userForm.get("userNameFormControl").value)
       .subscribe(
         (data) => {
           if (data.isUserExists) {
-            window.sessionStorage.setItem(
-              "userName",
-              this.userForm.get("userNameFormControl").value
-            );
-            window.sessionStorage.setItem("displayName", data.displayName);
-            window.sessionStorage.setItem("userId", data.userId.toString());
+            if (
+              this.userForm
+                .get("chatRoomFormControl")
+                .value.toString()
+                .toLowerCase() != "pt room"
+            ) {
+              this.userForm.controls["chatRoomFormControl"].setErrors({
+                invalid: true,
+              });
+              return;
+            } else {
+              window.sessionStorage.setItem(
+                "userName",
+                this.userForm.get("userNameFormControl").value
+              );
+              window.sessionStorage.setItem("displayName", data.displayName);
+              window.sessionStorage.setItem("userId", data.userId.toString());
 
-            this.router.navigateByUrl("chatRoom");
+              this.router.navigateByUrl("chatRoom");
+            }
           } else {
             this.userForm.controls["userNameFormControl"].setErrors({
               invalid: true,
             });
           }
-          this.spinnerService.IsVisible(false);
         },
         (error) => {
-          this.spinnerService.IsVisible(false);
-          //this.toast.show('Error occured while retrieving record', ToastType.Error)
+          window.alert("Error Occured"); //Error
         }
       );
   }

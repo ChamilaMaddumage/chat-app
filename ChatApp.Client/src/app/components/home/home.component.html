@@ -15,28 +15,57 @@
                     <div class="form-outline flex-fill mb-0">
                       <input
                         type="text"
-                        id="form3Example1c"
+                        id="userName"
                         class="form-control"
                         placeholder="Enter User Name"
                         [formControlName]="userNameFormControl"
-                        style="text-transform:uppercase" 
                       />
                       <div
-                    *ngIf="
-                      userForm.controls['userNameFormControl'].invalid &&
-                      (userForm.controls['userNameFormControl'].dirty ||
-                        userForm.controls['userNameFormControl'].touched)
-                    "
-                    class='alert alert-danger'
-                  >
-                    <div *ngIf="userForm.controls['userNameFormControl'].invalid">
-                      Please Enter valid User Name
+                        *ngIf="
+                          userForm.controls['userNameFormControl'].invalid &&
+                          (userForm.controls['userNameFormControl'].dirty ||
+                            userForm.controls['userNameFormControl'].touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.controls['userNameFormControl'].invalid
+                          "
+                        >
+                          Please Enter valid User Name
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <div class="form-outline flex-fill mb-0">
+                      <input
+                        type="text"
+                        id="chatRoom"
+                        class="form-control"
+                        placeholder="Enter Chat Room"
+                        [formControlName]="chatRoomFormControl"
+                      />
+                      <div
+                        *ngIf="
+                          userForm.controls['chatRoomFormControl'].invalid &&
+                          (userForm.controls['chatRoomFormControl'].dirty ||
+                            userForm.controls['chatRoomFormControl'].touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.controls['chatRoomFormControl'].invalid
+                          "
+                        >
+                          Please Enter valid Chat Room
+                        </div>
+                      </div>
                     </div>
-                    
                   </div>
-                  
 
                   <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                     <button

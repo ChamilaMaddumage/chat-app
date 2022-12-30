@@ -14,6 +14,8 @@ export class ChatRoomComponent implements OnInit {
   public loggedInUserId: number;
   public loggedInDisplayName: string;
   public messageContent: string;
+  public messageBy: string;
+  public message: string;
 
   constructor(
     private messagesService: MessagesService,
@@ -29,17 +31,21 @@ export class ChatRoomComponent implements OnInit {
   }
 
   getMessagesByChatRoomId(chatRoomId: number) {
-    this.spinnerService.IsVisible(true);
     this.messagesService.getMessagesByChatRoomId(chatRoomId).subscribe(
       (data) => {
         if (data.messagesDTOs) {
           this.messages = data.messagesDTOs;
+          var lastRecord = this.messages[this.messages.length - 1];
+          this.message = this.messages[this.messages.length - 1].messageContent;
+          if (lastRecord.messageBy == this.loggedInDisplayName) {
+            this.messageBy = "You";
+          } else {
+            this.messageBy = lastRecord.messageBy;
+          }
         }
-        this.spinnerService.IsVisible(false);
       },
       (error) => {
-        this.spinnerService.IsVisible(false);
-        //this.toast.show('Error occured while retrieving record', ToastType.Error)
+        window.alert("Error Occured"); //Error
       }
     );
   }

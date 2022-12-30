@@ -40,7 +40,7 @@ namespace ChatApp.Infrastructure.DataServices
         {
             IsUserExistsResponseModel isUserExistsResponseModel = new IsUserExistsResponseModel();
 
-            var user = await dbContext.Users.Where(x => x.UserName == userName).FirstOrDefaultAsync();
+            var user = await dbContext.Users.Where(x => x.UserName.ToLower() == userName.ToLower()).FirstOrDefaultAsync();
 
             if(user != null)
             {

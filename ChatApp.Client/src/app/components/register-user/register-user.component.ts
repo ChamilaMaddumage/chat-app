@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { UserDetailsRequestModel } from "src/app/models/user";
 import { SpinnerService } from "src/app/services/spinner.service";
@@ -28,21 +33,25 @@ export class RegisterUserComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = this.formBuilder.group({
-      userNameFormControl: new FormControl(""),
-      displayNameFormControl: new FormControl(""),
+      userNameFormControl: new FormControl("", [Validators.required]),
+      displayNameFormControl: new FormControl("", [Validators.required]),
     });
   }
 
   private onRegister() {
-    this.spinnerService.IsVisible(true);
-
-    this.spinnerService.IsVisible(true);
+    if (
+      this.userForm.get("userNameFormControl").value == "" ||
+      this.userForm.get("displayNameFormControl").value == ""
+    ) {
+      window.alert("Please fill required fields");
+      return;
+    }
     this.usersService
       .isUserExists(this.userForm.get("userNameFormControl").value)
       .subscribe(
         (data) => {
           if (data.isUserExists) {
-            window.alert('User Already Exists');//user already exists
+            window.alert("User Already Exists"); //user already exists
           } else {
             var userDetailsRequestModel = new UserDetailsRequestModel();
             userDetailsRequestModel.displayName = this.userForm.get(
@@ -55,22 +64,18 @@ export class RegisterUserComponent implements OnInit {
             this.usersService.saveUserDetail(userDetailsRequestModel).subscribe(
               (x) => {
                 if (x > 0) {
-                  this.spinnerService.IsVisible(false);
                   this.router.navigateByUrl("");
-                  window.alert('User Succefully Created');//success
+                  window.alert("User Succefully Created"); //success
                 }
               },
               (error) => {
-                this.spinnerService.IsVisible(false);
-                window.alert('Error Occured');//Error
+                window.alert("Error Occured"); //Error
               }
             );
           }
-          this.spinnerService.IsVisible(false);
         },
         (error) => {
-          this.spinnerService.IsVisible(false);
-          window.alert('Error Occured');//Error
+          window.alert("Error Occured"); //Error
         }
       );
   }

@@ -19,8 +19,23 @@
                         class="form-control"
                         placeholder="User Name"
                         [formControlName]="userNameFormControl"
-                        style="text-transform:uppercase"
                       />
+                      <div
+                        *ngIf="
+                          userForm.controls['userNameFormControl'].invalid &&
+                          (userForm.controls['userNameFormControl'].dirty ||
+                            userForm.controls['userNameFormControl'].touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.controls['userNameFormControl'].invalid
+                          "
+                        >
+                          Please Enter valid User Name
+                        </div>
+                      </div>
                     </div>
                   </div>
 
@@ -33,6 +48,22 @@
                         placeholder="Display Name"
                         [formControlName]="displayNameFormControl"
                       />
+                      <div
+                        *ngIf="
+                          userForm.controls['displayNameFormControl'].invalid &&
+                          (userForm.controls['displayNameFormControl'].dirty ||
+                            userForm.controls['displayNameFormControl'].touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div
+                          *ngIf="
+                            userForm.controls['displayNameFormControl'].invalid
+                          "
+                        >
+                          Please Enter Display Name
+                        </div>
+                      </div>
                     </div>
                   </div>
 
