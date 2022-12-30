@@ -10,3 +10,5 @@
 7. Now you will see Welcome screen. You should create a new user in order to join to the chat room.
 
 Note: There is only one chat room in the DB and you cannot add new chat rooms so far and that functionality will be available with the upcomming releases. So please use "pt room" as the chat room when you login. You can use "chamila" as a default user.
+
+API Architecture - Clean architecture with CQRS pattern.
