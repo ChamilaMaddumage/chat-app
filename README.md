@@ -2,7 +2,7 @@
 
 --- Steps to run this project ---
 1. Clone the project (main branch) 
-02). Restore the .bak file in the ChatApp.Database folder to your local SQL server. 
+2. Restore the .bak file in the ChatApp.Database folder to your local SQL server. 
 03). Open the ChatApp.API solution using Visual Studio 2019 and run the API (You will have to change the connection string with your restored DB name). 
 04). Open the ChatApp.Client folder using VS code. 
 05). run npm install command in vs code terminal. 
